@@ -385,4 +385,136 @@ Proof.
 (* End Exercise: 1 star, standard (mult_n_1) *)
 
 
+Theorem plus_1_neq_0_fristtry : forall n : nat,
+  (n + 1) =? 0 = false.
+Proof.
+  intros n.
+  simpl.
+Abort.
+
+
+Theorem plus_1_neq_0_fristtry : forall n : nat,
+  (n + 1) =? 0 = false.
+Proof.
+  intros n. destruct n as [| n'] eqn : E.
+  - reflexivity.
+  - reflexivity.
+Qed.
+
+Theorem negb_involutive : forall b : bool,
+  negb (negb b) = b.
+Proof.
+  intros b. destruct b eqn : E.
+  - reflexivity.
+  - reflexivity.
+  Qed.
+
+
+Theorem andb_commutive : forall b c, andb b c = andb c b.
+Proof.
+  intros b c. destruct b eqn : Eb.
+  - destruct c eqn : Ec.
+    + reflexivity.
+    + reflexivity.
+  - destruct c eqn : Ec.
+    + reflexivity.
+    + reflexivity.
+Qed.
+
+Theorem andb_commutive' : forall b c, andb b c = andb c b.
+Proof.
+  intros b c. destruct b eqn : Eb.
+  {
+    destruct c eqn : Ec.
+    { reflexivity. }
+    { reflexivity. }
+  }
+  {
+    destruct c eqn : Ec.
+    { reflexivity. }
+    { reflexivity. }
+  }
+Qed.
+
+Theorem andb3_exchange :
+  forall b c d, andb (andb b c) d = andb (andb b d) c.
+Proof.
+  intros b c d. destruct b eqn:Eb.
+  - destruct c eqn:Ec.
+    { destruct d eqn:Ed.
+      - reflexivity.
+      - reflexivity. }
+    { destruct d eqn:Ed.
+      - reflexivity.
+      - reflexivity. }
+  - destruct c eqn:Ec.
+    { destruct d eqn:Ed.
+      - reflexivity.
+      - reflexivity. }
+    { destruct d eqn:Ed.
+      - reflexivity.
+      - reflexivity. }
+Qed.
+
+
+(* Exercise: 2 stars, standard (andb_true_elim2) *)
+Theorem andb_true_elim2 : forall b c : bool,
+  andb b c = true -> c = true.
+Proof.
+  intros b c. destruct b eqn : Eb.
+  - destruct c eqn : Ec.
+    -- simpl. intros H. reflexivity.
+    -- simpl. intros H. rewrite -> H. reflexivity.
+  - destruct c eqn : Ec.
+    -- simpl. intros H. reflexivity.
+    -- simpl. intros H. rewrite -> H. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (andb_true_elim2) *)
+
+Theorem andb_commutative'' :
+  forall b c, andb b c = andb c b.
+Proof.
+  intros [] [].
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+Qed.
+
+(* Exercise: 1 star, standard (zero_nbeq_plus_1) *)
+Theorem zero_nbeq_plus_1 : forall n : nat,
+  0 =? (n + 1) = false.
+Proof.
+  intros [].
+  - reflexivity.
+  - reflexivity.
+Qed.
+(* End Exercise: 1 star, standard (zero_nbeq_plus_1) *)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
