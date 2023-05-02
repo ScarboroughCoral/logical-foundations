@@ -308,17 +308,81 @@ Proof. simpl. reflexivity. Qed.
 (* End Exercise: 1 star, standard (ltb) *)
 
 
+Theorem plus_0_n : forall n : nat, 0 + n = n.
+Proof.
+  intros n. simpl. reflexivity. Qed.
 
+Theorem plus_0_n' : forall n : nat, 0 + n = n.
+Proof.
+  intros n. reflexivity. Qed.
 
+Theorem plus_0_n'' : forall n : nat, 0 + n = n.
+Proof.
+  intros m. reflexivity. Qed.
 
+Theorem plus_1_l : forall n : nat, 1 + n = S n.
+Proof.
+  intros n. simpl. reflexivity. Qed.
 
+Theorem mult_0_l : forall n : nat, 0 * n = 0.
+Proof.
+  intros n. simpl. reflexivity. Qed.
 
+Theorem plus_id_example : forall n m : nat,
+  n = m ->
+  n + n = m + m.
+Proof.
+  intros n m.
+  intros H.
+  rewrite -> H.
+  reflexivity.
+  Qed.
 
+Theorem plus_id_example' : forall n m : nat,
+  n = m ->
+  n + n = m + m.
+Proof.
+  intros n m.
+  intros H.
+  rewrite <- H.
+  reflexivity.
+  Qed.
 
+(* Exercise: 1 star, standard (plus_id_exercise) *)
+Theorem plus_id_exercise : forall n m o : nat,
+  n = m -> m = o -> n + m = m + o.
+Proof.
+  intros n m o.
+  intros H1 H2.
+  rewrite -> H1.
+  rewrite <- H2.
+  reflexivity.
+  Qed.
+(* End Exercise: 1 star, standard (plus_id_exercise) *)
 
+Check mult_0_l.
+Check mult_n_Sm.
+Check mult_n_O.
 
+Theorem mult_n_0_m_0 : forall p q : nat,
+  (p * 0) + (q * 0) = 0.
+Proof.
+  intros p q.
+  rewrite <- mult_n_O.
+  rewrite <- mult_n_O.
+  reflexivity.
+  Qed.
 
-
+(* Exercise: 1 star, standard (mult_n_1) *)
+Theorem mult_n_1 : forall p : nat,
+  p * 1 = p.
+Proof.
+  intros p.
+  rewrite <- mult_n_Sm.
+  rewrite <- mult_n_O.
+  reflexivity.
+  Qed.
+(* End Exercise: 1 star, standard (mult_n_1) *)
 
 
 
