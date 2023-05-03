@@ -492,14 +492,67 @@ Qed.
 (* End Exercise: 1 star, standard (zero_nbeq_plus_1) *)
 
 
+(* Exercise: 2 stars, standard, optional (decreasing) *)
+(* Fixpoint plus_all_terminated (m n : nat) : nat :=
+  match m, n with
+  | O, O => O
+  | O, n' => n'
+  | m', O => m'
+  | S m', S n' => m'
+  end. *)
+(* End Exercise: 2 stars, standard, optional (decreasing) *)
 
+(* Exercise: 1 star, standard (identity_fn_applied_twice) *)
+Theorem identity_fn_applied_twice :
+  forall (f : bool -> bool),
+  (forall (x : bool), f x = x) ->
+  forall (b : bool), f (f b) = b.
+Proof.
+  intros f.
+  intros H.
+  intros b.
+  rewrite -> H.
+  rewrite -> H.
+  reflexivity.
+Qed.
+(* End Exercise: 1 star, standard (identity_fn_applied_twice) *)
 
+(* Exercise: 1 star, standard (negation_fn_applied_twice) *)
+Theorem negb_negb_b_eq_b : forall b, negb (negb b) = b.
+Proof.
+  intros [].
+  - reflexivity.
+  - reflexivity.
+Qed.
+Theorem negation_fn_applied_twice :
+  forall (f : bool -> bool),
+  (forall (x : bool), f x = negb x) ->
+  forall (b : bool), f (f b) = b.
+Proof.
+  intros f.
+  intros H.
+  intros b.
+  rewrite -> H.
+  rewrite -> H.
+  rewrite -> negb_negb_b_eq_b.
+  reflexivity.
+Qed.
+  
+Definition manual_grade_for_negation_fn_applied_twice : option (nat*string) := None.
+(* End Exercise: 1 star, standard (negation_fn_applied_twice) *)
 
-
-
-
-
-
+(* Exercise: 3 stars, standard, optional (andb_eq_orb) *)
+Theorem andb_eq_orb :
+  forall (b c : bool),
+  (andb b c = orb b c) ->
+  b = c.
+Proof.
+  intros b c.
+  destruct b.
+  - simpl. intros H. rewrite -> H. reflexivity.
+  - simpl. intros H. rewrite -> H. reflexivity.
+Qed.
+(* End Exercise: 3 stars, standard, optional (andb_eq_orb) *)
 
 
 
