@@ -554,6 +554,152 @@ Proof.
 Qed.
 (* End Exercise: 3 stars, standard, optional (andb_eq_orb) *)
 
+Module LateDays.
+Inductive letter : Type :=
+  | A | B | C | D | F.
+Inductive modifier : Type :=
+  | Plus | Natural | Minus.
+Inductive grade : Type :=
+  Grade (l:letter) (m:modifier).
+
+Inductive comparison : Set :=
+  | Eq : comparison (* "equal" *)
+  | Lt : comparison (* "less than" *)
+  | Gt : comparison. (* "greater than" *)
+
+Definition letter_comparison (l1 l2 : letter) : comparison :=
+  match l1, l2 with
+    | A, A => Eq
+    | A, _ => Gt
+    | B, A => Lt
+    | B, B => Eq
+    | B, _ => Gt
+    | C, (A | B) => Lt
+    | C, C => Eq
+    | C, _ => Gt
+    | D, (A | B | C) => Lt
+    | D, D => Eq
+    | D, _ => Gt
+    | F, (A | B | C | D) => Lt
+    | F, F => Eq
+  end.
+
+Compute letter_comparison B A.
+Check letter_comparison.
+
+(* Exercise: 1 star, standard (letter_comparison) *)
+Theorem letter_comparison_Eq :
+  forall l, letter_comparison l l = Eq.
+Proof.
+  intros [].
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+Qed.
+(* End Exercise: 1 star, standard (letter_comparison) *)
+
+Definition modifier_comparison (m1 m2 : modifier) : comparison :=
+  match m1, m2 with
+  | Plus, Plus => Eq
+  | Plus, _ => Gt
+  | Natural, Plus => Lt
+  | Natural, Natural => Eq
+  | Natural, _ => Gt
+  | Minus, (Plus | Natural) => Lt
+  | Minus, Minus => Eq
+  end.
+
+(* Exercise: 2 stars, standard (grade_comparison) *)
+Definition grade_comparison (g1 g2 : grade) : comparison :=
+  match g1, g2 with
+  | (Grade l1 m1), (Grade l2 m2) => match (letter_comparison l1 l2), (modifier_comparison m1 m2) with
+    | Eq, Eq => Eq
+    | Eq, Lt => Lt
+    | Eq, Gt => Gt
+    | Gt, _ => Gt
+    | Lt, _ => Lt
+    end
+  end.
+
+Example test_grade_comparison1 :
+  (grade_comparison (Grade A Minus) (Grade B Plus)) = Gt.
+Proof. reflexivity. Qed.
+  
+Example test_grade_comparison2 :
+  (grade_comparison (Grade A Minus) (Grade A Plus)) = Lt.
+Proof. reflexivity. Qed.
+
+Example test_grade_comparison3 :
+  (grade_comparison (Grade F Plus) (Grade F Plus)) = Eq.
+Proof. reflexivity. Qed.
+
+Example test_grade_comparison4 :
+  (grade_comparison (Grade B Minus) (Grade C Plus)) = Gt.
+Proof. reflexivity. Qed.
+(* End Exercise: 2 stars, standard (grade_comparison) *)
+
+Definition lower_letter (l : letter) : letter :=
+  match l with
+  | A => B
+  | B => C
+  | C => D
+  | D => F
+  | F => F (* Note that you can't go lower than F *)
+  end.
+
+Theorem lower_letter_lowers: forall (l : letter),
+  letter_comparison (lower_letter l) l = Lt.
+Proof.
+  intros l.
+  destruct l.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+  - simpl. (* We get stuck here. *)
+Abort.
+
+Theorem lower_letter_F_is_F:
+  lower_letter F = F.
+Proof.
+  simpl. reflexivity.
+Qed.
+
+(* Exercise: 2 stars, standard (lower_letter_lowers) *)
+Theorem lower_letter_lowers:
+  forall (l : letter),
+    letter_comparison F l = Lt ->
+    letter_comparison (lower_letter l) l = Lt.
+Proof.
+  intros [].
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+  - simpl. intros H. rewrite -> H. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (lower_letter_lowers) *)
+
+Check comparison.
+Check Eq.
+Check grade.
+Check bool.
+Check Grade A Plus.
+
+(* (* Exercise: 2 stars, standard (lower_grade) *)
+Definition lower_grade (g : grade) : grade
+  match g with
+  | Grade l m => Grade (lower_letter l) m
+  end.
+(* End Exercise: 2 stars, standard (lower_grade) *)
+ *)
+
+End LateDays.
+
+
+
 
 
 
