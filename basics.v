@@ -614,12 +614,10 @@ Definition modifier_comparison (m1 m2 : modifier) : comparison :=
 (* Exercise: 2 stars, standard (grade_comparison) *)
 Definition grade_comparison (g1 g2 : grade) : comparison :=
   match g1, g2 with
-  | (Grade l1 m1), (Grade l2 m2) => match (letter_comparison l1 l2), (modifier_comparison m1 m2) with
-    | Eq, Eq => Eq
-    | Eq, Lt => Lt
-    | Eq, Gt => Gt
-    | Gt, _ => Gt
-    | Lt, _ => Lt
+  | (Grade l1 m1), (Grade l2 m2) => match (letter_comparison l1 l2) with
+    | Gt => Gt
+    | Lt => Lt
+    | Eq =>modifier_comparison m1 m2
     end
   end.
 
@@ -688,14 +686,84 @@ Check grade.
 Check bool.
 Check Grade A Plus.
 
-(* (* Exercise: 2 stars, standard (lower_grade) *)
-Definition lower_grade (g : grade) : grade
+(* Exercise: 2 stars, standard (lower_grade) *)
+Definition lower_grade (g : grade) : grade :=
   match g with
-  | Grade l m => Grade (lower_letter l) m
+  | Grade l Plus => Grade l Natural
+  | Grade l Natural => Grade l Minus
+  | Grade l Minus =>
+      match l with
+      | F => g
+      | _ => Grade (lower_letter l) Plus
+      end
   end.
-(* End Exercise: 2 stars, standard (lower_grade) *)
- *)
+Example lower_grade_A_Plus :
+  lower_grade (Grade A Plus) = (Grade A Natural).
+Proof.
+  simpl. reflexivity.
+Qed.
+Example lower_grade_A_Natural :
+  lower_grade (Grade A Natural) = (Grade A Minus).
+Proof.
+  simpl. reflexivity.
+Qed.
+Example lower_grade_A_Minus :
+  lower_grade (Grade A Minus) = (Grade B Plus).
+Proof.
+  simpl. reflexivity.
+Qed.
+Example lower_grade_B_Plus :
+  lower_grade (Grade B Plus) = (Grade B Natural).
+Proof.
+  simpl. reflexivity.
+Qed.
+Example lower_grade_F_Natural :
+  lower_grade (Grade F Natural) = (Grade F Minus).
+Proof.
+  simpl. reflexivity.
+Qed.
+Example lower_grade_twice :
+  lower_grade (lower_grade (Grade B Minus)) = (Grade C Natural).
+Proof.
+  simpl. reflexivity.
+Qed.
+Example lower_grade_thrice :
+  lower_grade (lower_grade (lower_grade (Grade B Minus))) = (Grade C Minus).
+Proof.
+  simpl. reflexivity.
+Qed.
 
+Theorem lower_grade_F_Minus : lower_grade (Grade F Minus) = (Grade F Minus).
+Proof.
+  simpl. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (lower_grade) *)
+
+(* Exercise: 3 stars, standard (lower_grade_lowers) *)
+Check grade_comparison.
+Check letter_comparison_Eq.
+Check lower_grade_F_Minus.
+Theorem lower_grade_lowers :
+  forall (g : grade),
+    grade_comparison (Grade F Minus) g = Lt ->
+    grade_comparison (lower_grade g) g = Lt.
+Proof.
+  intros g. destruct g. destruct m eqn : EM.
+  - intros H. simpl. rewrite -> letter_comparison_Eq. reflexivity.
+  - intros H. simpl. rewrite -> letter_comparison_Eq. reflexivity.
+  - intros H. destruct l.
+    -- reflexivity.
+    -- reflexivity.
+    -- reflexivity.
+    -- reflexivity.
+    -- rewrite -> lower_grade_F_Minus. rewrite -> H. reflexivity.
+Qed.
+  
+  
+  
+  
+  
+(* End Exercise: 3 stars, standard (lower_grade_lowers) *)
 End LateDays.
 
 
