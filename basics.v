@@ -788,9 +788,7 @@ Theorem no_penalty_for_mostly_on_time :
 Proof.
   intros ld g.
   intros H.
-  destruct ld.
-  - reflexivity.
-  - rewrite -> apply_late_policy_unfold. rewrite -> H. reflexivity.
+  rewrite -> apply_late_policy_unfold. rewrite -> H. reflexivity.
 Qed.
 (* End Exercise: 2 stars, standard (no_penalty_for_mostly_on_time) *)
 End LateDays.
