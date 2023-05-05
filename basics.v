@@ -758,12 +758,41 @@ Proof.
     -- reflexivity.
     -- rewrite -> lower_grade_F_Minus. rewrite -> H. reflexivity.
 Qed.
-  
-  
-  
-  
-  
 (* End Exercise: 3 stars, standard (lower_grade_lowers) *)
+      
+
+
+Definition apply_late_policy (late_days : nat) (g : grade) : grade :=
+  if late_days <? 9 then g
+  else if late_days <? 17 then lower_grade g
+  else if late_days <? 21 then lower_grade (lower_grade g)
+  else lower_grade (lower_grade (lower_grade g)).
+
+Theorem apply_late_policy_unfold :
+  forall (late_days : nat) (g : grade),
+    (apply_late_policy late_days g)
+    =
+    (if late_days <? 9 then g else
+       if late_days <? 17 then lower_grade g
+       else if late_days <? 21 then lower_grade (lower_grade g)
+            else lower_grade (lower_grade (lower_grade g))).
+Proof.
+  intros. reflexivity.
+Qed.
+
+(* Exercise: 2 stars, standard (no_penalty_for_mostly_on_time) *)
+Theorem no_penalty_for_mostly_on_time :
+  forall (late_days : nat) (g : grade),
+    (late_days <? 9 = true) ->
+    apply_late_policy late_days g = g.
+Proof.
+  intros ld g.
+  intros H.
+  destruct ld.
+  - reflexivity.
+  - rewrite -> apply_late_policy_unfold. rewrite -> H. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (no_penalty_for_mostly_on_time) *)
 End LateDays.
 
 
