@@ -791,7 +791,66 @@ Proof.
   rewrite -> apply_late_policy_unfold. rewrite -> H. reflexivity.
 Qed.
 (* End Exercise: 2 stars, standard (no_penalty_for_mostly_on_time) *)
+
+(* Exercise: 2 stars, standard (graded_lowered_once) *)
+Theorem grade_lowered_once :
+  forall (late_days : nat) (g : grade),
+    (late_days <? 9 = false) ->
+    (late_days <? 17 = true) ->
+    (grade_comparison (Grade F Minus) g = Lt) ->
+    (apply_late_policy late_days g) = (lower_grade g).
+Proof.  
+  intros ld g.
+  intros H1 H2 H3.
+  rewrite -> apply_late_policy_unfold. rewrite -> H1. rewrite -> H2. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (graded_lowered_once) *)
+
 End LateDays.
+
+(* Exercise: 3 stars, standard (binary) *)
+Inductive bin : Type :=
+  | Z
+  | B0 (n : bin)
+  | B1 (n : bin).
+
+Fixpoint incr (m:bin) : bin :=
+  match m with
+  | Z => B1 Z
+  | B0 n' => B1 n'
+  | B1 n' => B0 (incr n')
+  end.
+Fixpoint bin_to_nat (m:bin) : nat :=
+  match m with
+  | Z => O
+  | B1 Z => S O
+  | B0 n' => mult 2 (bin_to_nat n')
+  | B1 n' => plus 1 (mult 2 (bin_to_nat n'))
+  end.
+
+Example test_bin_incr1 : (incr (B1 Z)) = B0 (B1 Z).
+Proof. reflexivity. Qed.
+Example test_bin_incr2 : (incr (B0 (B1 Z))) = B1 (B1 Z).
+Proof. reflexivity. Qed.
+Example test_bin_incr3 : (incr (B1 (B1 Z))) = B0 (B0 (B1 Z)).
+Proof. reflexivity. Qed.
+Example test_bin_incr4 : bin_to_nat (B0 (B1 Z)) = 2.
+Proof. reflexivity. Qed.
+Example test_bin_incr5 :
+        bin_to_nat (incr (B1 Z)) = 1 + bin_to_nat (B1 Z).
+Proof. reflexivity. Qed.
+Example test_bin_incr6 :
+        bin_to_nat (incr (incr (B1 Z))) = 2 + bin_to_nat (B1 Z).
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, standard (binary) *)
+
+
+
+
+
+
+
+
 
 
 
