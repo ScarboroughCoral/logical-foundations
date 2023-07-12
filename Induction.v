@@ -99,7 +99,13 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard, optional (even_S) *)
 
+(* Exercise: 1 star, standard, optional (destruct_induction) *)
+(* 
+  destruct 和 induction 都是证明策略，用于对归纳定义的类型进行推理和证明。它们的主要区别在于它们应用的场景和效果。
 
-
+  destruct 策略是用于对某个类型的所有构造子进行分类讨论的。它将目标分解为每个构造子的情况，并为每种情况生成一个子目标。这种策略通常用于证明非归纳类型或证明归纳类型的某些性质，但不涉及归纳原理本身。
+  induction 策略更常用于证明归纳类型的性质，它可以应用归纳原理来证明目标。它会生成两个子目标：一个基本情况，其中归纳变量的值为基本构造子；另一个归纳情况，其中归纳变量的值为构造子的递归形式。
+*)
+(* End Exercise: 1 star, standard, optional (destruct_induction) *)
 
 
