@@ -89,6 +89,15 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard (eqb_refl) *)
 
+(* Exercise: 2 stars, standard, optional (even_S) *)
+Theorem even_S : forall n : nat,
+  even (S n) = negb (even n).
+Proof.
+  intros. induction n.
+  - simpl. reflexivity.
+  - rewrite -> IHn. rewrite -> negb_involutive. simpl. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard, optional (even_S) *)
 
 
 
