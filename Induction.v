@@ -79,7 +79,15 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard (double_plus) *)
 
-
+(* Exercise: 2 stars, standard (eqb_refl) *)
+Theorem eqb_refl : forall n : nat,
+  (n =? n) = true.
+Proof.
+  intros n. induction n.
+  - simpl. reflexivity.
+  - simpl. rewrite -> IHn. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (eqb_refl) *)
 
 
 
