@@ -108,4 +108,114 @@ Qed.
 *)
 (* End Exercise: 1 star, standard, optional (destruct_induction) *)
 
+Theorem mult_0_plus' : forall n m : nat,
+  (n + 0 + 0) * m = n * m.
+Proof.
+  intros n m.
+  assert (H: n + 0 + 0 = n).
+    { rewrite add_comm. simpl. rewrite add_comm. reflexivity. }
+  rewrite -> H.
+  reflexivity. Qed.
+
+Theorem plus_rearrange_firsttry : forall n m p q : nat,
+  (n + m) + (p + q) = (m + n) + (p + q).
+Proof.
+  intros n m p q.
+  (* We just need to swap (n + m) for (m + n)... seems
+     like add_comm should do the trick! *)
+  rewrite add_comm.
+  (* Doesn't work... Coq rewrites the wrong plus! :-( *)
+Abort.
+
+Theorem plus_rearrange : forall n m p q : nat,
+  (n + m) + (p + q) = (m + n) + (p + q).
+Proof.
+  intros n m p q.
+  assert (H: n + m = m + n).
+  { rewrite add_comm. reflexivity. }
+  rewrite H. reflexivity. Qed.
+
+Theorem add_assoc' : forall n m p : nat,
+  n + (m + p) = (n + m) + p.
+Proof. intros n m p. induction n as [| n' IHn']. reflexivity.
+  simpl. rewrite IHn'. reflexivity. Qed.
+
+Theorem add_assoc'' : forall n m p : nat,
+  n + (m + p) = (n + m) + p.
+Proof.
+  intros n m p. induction n as [| n' IHn'].
+  - (* n = 0 *)
+    reflexivity.
+  - (* n = S n' *)
+    simpl. rewrite IHn'. reflexivity. Qed.
+
+(* Exercise: 2 stars, advanced, especially useful (add_comm_informal) *)
+
+(* 
+Proof: 归纳推理n
+1. n=0时，需要证明0+m=m+0。此时对m分情况讨论。
+  1.1. m=0时，需要证明0+0=0+0，根据加法定义显然成立。
+  1.2. m=Sm'时，需要证明0+Sm'=Sm'+0，根据加法定义就是证明Sm'=S(m'+0)，根据add_0_r定理就可以证明S(m'+0)=Sm'。
+2. n=Sn'时，假设n'+m=m+n'，需要证明Sn'+m=m+Sn'。此时对m分情况讨论。
+  2.1. m=0时，需要证明Sn'+0=0+Sn'。根据加法定义和add_0_r定理显然成立。
+  2.2. m=Sm'时，需要证明Sn'+Sm'=Sm'+Sn'，根据加法定义和plus_n_Sm进行简化显然成立。
+*)
+  
+(* Do not modify the following line: *)
+Definition manual_grade_for_add_comm_informal : option (nat*string) := None.
+(* End Exercise: 2 stars, advanced, especially useful (add_comm_informal) *)
+
+(* Exercise: 2 stars, standard, optional (eqb_refl_informal) *)
+(* 不做了 *)
+Definition manual_grade_for_eqb_refl_informal : option (nat*string) := None.
+
+(* End Exercise: 2 stars, standard, optional (eqb_refl_informal) *)
+
+(* Exercise: 3 stars, standard, especially useful (mul_comm) *)
+Theorem add_shuffle3 : forall n m p : nat,
+  n + (m + p) = m + (n + p).
+Proof.
+  intros n m p.
+  rewrite add_assoc. rewrite add_comm. rewrite add_assoc. rewrite add_comm.
+  assert (H: p+n=n+p).
+    { rewrite add_comm. reflexivity. }
+  rewrite H.
+  reflexivity.
+Qed.
+
+Theorem mul_comm : forall m n : nat,
+  m * n = n * m.
+Proof.
+  intros m n. induction m.
+  - simpl. rewrite <- mult_n_O. reflexivity.
+  - simpl. rewrite add_comm. rewrite <- mult_n_Sm. rewrite IHm. reflexivity.
+Qed.
+(* End Exercise: 3 stars, standard, especially useful (mul_comm) *)
+
+(* Exercise: 2 stars, standard, optional (plus_leb_compat_l) *)
+Check leb.
+Theorem plus_leb_compat_l : forall n m p : nat,
+  n <=? m = true -> (p + n) <=? (p + m) = true.
+Proof.
+  intros n m p H.
+  induction p.
+  - simpl. rewrite H. reflexivity.
+  - simpl. rewrite IHp. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard, optional (plus_leb_compat_l) *)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
