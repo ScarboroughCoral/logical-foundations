@@ -64,3 +64,25 @@ Proof.
   - simpl. rewrite -> IHn. reflexivity.
 Qed.
 (* End Exercise: 2 stars, standard, especially useful (basic_induction) *)
+
+(* Exercise: 2 stars, standard (double_plus) *)
+Fixpoint double (n:nat) :=
+  match n with
+  | O => O
+  | S n' => S (S (double n'))
+  end.
+Lemma double_plus : forall n, double n = n + n .
+Proof.
+  intros n. induction n.
+  - reflexivity.
+  - simpl. rewrite -> IHn. rewrite <- plus_n_Sm. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (double_plus) *)
+
+
+
+
+
+
+
+
