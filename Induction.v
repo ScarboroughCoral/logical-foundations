@@ -204,10 +204,93 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard, optional (plus_leb_compat_l) *)
 
+(* Exercise: 3 stars, standard, optional (more_exercises) *)
+Theorem leb_refl : forall n:nat,
+  (n <=? n) = true.
+Proof.
+  intros n. induction n.
+  - simpl. reflexivity.
+  - simpl. rewrite IHn. reflexivity.
+Qed.
+Theorem zero_neqb_S : forall n:nat,
+  0 =? (S n) = false.
+Proof.
+  intros n. 
+  simpl. reflexivity.
+Qed.
+Theorem andb_false_r : forall b : bool,
+  andb b false = false.
+Proof.
+  intros b. induction b.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+Qed.
+Theorem S_neqb_0 : forall n:nat,
+  (S n) =? 0 = false.
+Proof.
+  intros n.
+  simpl. reflexivity.
+Qed.
+Theorem mult_1_l : forall n:nat, 1 * n = n.
+Proof.
+  intros n.
+  simpl. rewrite add_0_r. reflexivity.
+Qed.
+  
+Theorem all3_spec : forall b c : bool,
+  orb
+    (andb b c)
+    (orb (negb b)
+         (negb c))
+  = true.
+Proof.
+  intros b c.
+  destruct b,c.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+  - reflexivity.
+  - reflexivity.
+Qed.
+(* Lemma add_reduce_left: forall m n p : nat,
+  m + n =? m + p = true -> n =? p = true.
+Proof.
+  intros m n p.
+  induction m.
+  - simpl. intros H. rewrite H. reflexivity.
+  - simpl. intros H. rewrite IHm.
+    + reflexivity.
+    + rewrite H. reflexivity.
+Qed.
+   *)
+Theorem mult_plus_distr_r : forall n m p : nat,
+  (n + m) * p = (n * p) + (m * p).
+Proof.
+  intros n m p.
+  induction p.
+  - rewrite mul_0_r. rewrite mul_0_r. rewrite mul_0_r. reflexivity.
+  - rewrite <- mult_n_Sm. rewrite <- mult_n_Sm. rewrite <- mult_n_Sm.
+    rewrite (add_comm (n*p) n).
+    rewrite (add_assoc (n + n * p) (m * p) m).
+    rewrite (add_comm (n + n * p + m * p) m).
+    rewrite (add_assoc m (n + n * p) (m * p)).
+    rewrite (add_assoc m n (n * p)).
+    rewrite (add_comm m n).
+    rewrite (add_comm ((n + m) * p) (n + m)).
+    rewrite IHp.
+    rewrite add_assoc.
+    reflexivity.
+Qed.
+    
+Theorem mult_assoc : forall n m p : nat,
+  n * (m * p) = (n * m) * p.
+Proof.
+  intros n m p.
+  induction n.
+  - reflexivity.
+  - simpl. rewrite mult_plus_distr_r. rewrite IHn. reflexivity.
+Qed.
 
-
-
-
+(* End Exercise: 3 stars, standard, optional (more_exercises) *)
 
 
 
