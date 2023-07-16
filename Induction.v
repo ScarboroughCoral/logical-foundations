@@ -292,6 +292,51 @@ Qed.
 
 (* End Exercise: 3 stars, standard, optional (more_exercises) *)
 
+(* Exercise: 2 stars, standard, optional (add_shuffle3') *)
+Theorem add_shuffle3' : forall n m p : nat,
+  n + (m + p) = m + (n + p).
+Proof.
+  intros n m p.
+  rewrite add_assoc.
+  rewrite (add_comm n m).
+  rewrite add_assoc.
+  reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard, optional (add_shuffle3') *)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
