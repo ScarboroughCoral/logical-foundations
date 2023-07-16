@@ -335,6 +335,24 @@ Proof.
 Qed.
 (* End Exercise: 3 stars, standard, especially useful (binary_commute) *)
 
+(* Exercise: 3 stars, standard (nat_bin_nat) *)
+Fixpoint nat_to_bin (n:nat) : bin :=
+  match n with
+    | 0 => Z
+    | S m => incr (nat_to_bin(m))
+  end.
+
+Theorem nat_bin_nat : forall n, bin_to_nat (nat_to_bin n) = n.
+Proof.
+  intros n.
+  induction n.
+  - reflexivity.
+  - simpl.
+    rewrite (bin_to_nat_pres_incr (nat_to_bin n)).
+    rewrite IHn.
+    reflexivity.
+Qed.
+(* End Exercise: 3 stars, standard (nat_bin_nat) *)
 
 
 
