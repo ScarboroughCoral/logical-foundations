@@ -355,37 +355,71 @@ Qed.
 (* End Exercise: 3 stars, standard (nat_bin_nat) *)
 
 
+Theorem bin_nat_bin_fails : forall b, nat_to_bin (bin_to_nat b) = b.
+Abort.
+
+(* Exercise: 2 stars, advanced (double_bin) *)
+Lemma double_incr : forall n : nat, double (S n) = S (S (double n)).
+Proof.
+  intros n.
+  simpl.
+  reflexivity.
+Qed.
+Definition double_bin (b:bin) : bin :=
+match b with
+  | Z => Z
+  | b' => B0 b'
+end.
+
+Example double_bin_zero : double_bin Z = Z.
+Proof. reflexivity. Qed.
+
+Lemma double_incr_bin : forall b,
+    double_bin (incr b) = incr (incr (double_bin b)).
+Proof.
+  intros b.
+  induction b.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+Qed.
+
+Theorem bin_nat_bin_fails : forall b, nat_to_bin (bin_to_nat b) = b.
+(*
+  因为bin可能存在 B0 (B0 Z) = Z 的情况
+  Definition double_bin (b:bin) : bin := B0 b. 
+  double_bin 的这种实现无法证明 Example double_bin_zero
+*)
+Abort.
+(* End Exercise: 2 stars, advanced (double_bin) *)
 
 
+(* Exercise: 4 stars, advanced (bin_nat_bin) *)
+Fixpoint normalize (b:bin) : bin :=
+match b with
+  | Z => Z
+  | B0 b' => (double_bin (normalize b'))
+  | B1 b' => (incr (double_bin (normalize b')))
+end.
 
+Example normalize_B0_Z: normalize (B0 Z) = Z.
+Proof. simpl. reflexivity. Qed.
 
+Lemma nat_to_bin_double : forall m , nat_to_bin (m + m) = double_bin (nat_to_bin m).
+Proof.
+  intros m.
+  induction m.
+  - simpl. reflexivity.
+  - simpl. rewrite add_comm. simpl. rewrite IHm. rewrite double_incr_bin. reflexivity.
+Qed.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theorem bin_nat_bin : forall b, nat_to_bin (bin_to_nat b) = normalize b.
+Proof.
+  intros b.
+  induction b.
+  - simpl. reflexivity.
+  - simpl. rewrite add_0_r. rewrite <- IHb. rewrite nat_to_bin_double. reflexivity.
+  - simpl. rewrite add_0_r. rewrite <- IHb. rewrite nat_to_bin_double. reflexivity.
+Qed.
+(* End Exercise: 4 stars, advanced (bin_nat_bin) *)
 
