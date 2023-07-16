@@ -304,12 +304,36 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard, optional (add_shuffle3') *)
 
+Fixpoint incr (m:bin) : bin :=
+  match m with
+    | Z => B1 Z
+    | B0 n => B1 n
+    | B1 n => B0 (incr n)
+  end.
+Fixpoint bin_to_nat (m:bin) : nat :=
+  match m with
+    | Z => 0
+    | B0 n => 2 * (bin_to_nat n)
+    | B1 n => 1 + 2 * (bin_to_nat n)
+  end.
 
-
-
-
-
-
+(* Exercise: 3 stars, standard, especially useful (binary_commute) *)
+Theorem bin_to_nat_pres_incr : forall b : bin,
+  bin_to_nat (incr b) = 1 + bin_to_nat b.
+Proof.
+  intros b.
+  induction b.
+  - simpl. reflexivity.
+  - simpl. rewrite add_0_r. reflexivity.
+  - simpl.
+    rewrite add_0_r.
+    rewrite add_0_r.
+    rewrite IHb.
+    simpl.
+    rewrite <- plus_n_Sm.
+    reflexivity.
+Qed.
+(* End Exercise: 3 stars, standard, especially useful (binary_commute) *)
 
 
 
