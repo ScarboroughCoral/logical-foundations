@@ -278,6 +278,27 @@ Example test_included2: included [1;2;2] [2;1;4;1] = false.
 Proof. reflexivity. Qed.
 (* End Exercise: 3 stars, standard, optional (bag_more_functions) *)
 
+(* Exercise: 2 stars, standard, especially useful (add_inc_count) *)
+Theorem nat_reflexivity: forall n:nat,
+  n =? n = true.
+Proof.
+  intros n.
+  induction n.
+  - reflexivity.
+  - simpl. rewrite IHn. reflexivity.
+Qed.
+Theorem add_inc_count : forall (v:nat) (s:bag),
+  count v (add v s) = 1 + count v s.
+Proof.
+  intros v s.
+  simpl. rewrite nat_reflexivity. reflexivity.
+Qed.
+
+(* Do not modify the following line: *)
+Definition manual_grade_for_add_inc_count : option (nat*string) := None.
+(* End Exercise: 2 stars, standard, especially useful (add_inc_count) *)
+
+
 
 
 
