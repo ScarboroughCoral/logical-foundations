@@ -180,17 +180,61 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard, especially useful (list_funs) *)
 
+(* Exercise: 3 stars, advanced (alternate) *)
+Fixpoint alternate (l1 l2 : natlist) : natlist :=
+match l1,l2 with
+  | nil,l2 => l2
+  | l1, nil => l1
+  | x::l1',y::l2' => x::y::(alternate l1' l2')
+end.
+Example test_alternate1:
+  alternate [1;2;3] [4;5;6] = [1;4;2;5;3;6].
+Proof. reflexivity. Qed.
+Example test_alternate2:
+  alternate [1] [4;5;6] = [1;4;5;6].
+Proof. reflexivity. Qed.
+Example test_alternate3:
+  alternate [1;2;3] [4] = [1;4;2;3].
+Proof. reflexivity. Qed.
+Example test_alternate4:
+  alternate [] [20;30] = [20;30].
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, advanced (alternate) *)
 
+Definition bag := natlist.
 
+Check natlist.
 
+(* Exercise: 3 stars, standard, especially useful (bag_functions) *)
+Fixpoint count (v : nat) (s : bag) : nat :=
+match s with
+  | nil => 0
+  | x::s' => if x =? v then (1 + (count v s')) else (count v s')
+end.
+Example test_count1: count 1 [1;2;3;1;4;1] = 3.
+Proof. reflexivity. Qed.
+Example test_count2: count 6 [1;2;3;1;4;1] = 0.
+Proof. reflexivity. Qed.
 
+Definition sum : bag -> bag -> bag := app.
 
-
-
-
-
-
-
+Example test_sum1: count 1 (sum [1;2;3] [1;4;1]) = 3.
+Proof. reflexivity. Qed.
+Definition add (v : nat) (s : bag) : bag := v::s.
+Example test_add1: count 1 (add 1 [1;4;1]) = 3.
+Proof. reflexivity. Qed.
+Example test_add2: count 5 (add 1 [1;4;1]) = 0.
+Proof. reflexivity. Qed.
+Fixpoint member (v : nat) (s : bag) : bool :=
+match s with
+  | nil => false
+  | x::s' => if x =? v then true else member v s'
+end.
+Example test_member1: member 1 [1;4;1] = true.
+Proof. reflexivity. Qed.
+Example test_member2: member 2 [1;4;1] = false.
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, standard, especially useful (bag_functions) *)
 
 
 
