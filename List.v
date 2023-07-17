@@ -236,10 +236,47 @@ Example test_member2: member 2 [1;4;1] = false.
 Proof. reflexivity. Qed.
 (* End Exercise: 3 stars, standard, especially useful (bag_functions) *)
 
-
-
-
-
+(* Exercise: 3 stars, standard, optional (bag_more_functions) *)
+Fixpoint remove_one (v : nat) (s : bag) : bag :=
+match s with
+  | nil => s
+  | x::s' => if x =? v then s' else x::remove_one v s'
+end.
+Example test_remove_one1:
+  count 5 (remove_one 5 [2;1;5;4;1]) = 0.
+Proof. reflexivity. Qed.
+Example test_remove_one2:
+  count 5 (remove_one 5 [2;1;4;1]) = 0.
+Proof. reflexivity. Qed.
+Example test_remove_one3:
+  count 4 (remove_one 5 [2;1;4;5;1;4]) = 2.
+Proof. reflexivity. Qed.
+Example test_remove_one4:
+  count 5 (remove_one 5 [2;1;5;4;5;1;4]) = 1.
+Proof. reflexivity. Qed.
+Fixpoint remove_all (v:nat) (s:bag) : bag :=
+match s with
+  | nil => s
+  | x::s' => if x =? v then remove_all v s' else x::remove_all v s'
+end.
+Example test_remove_all1: count 5 (remove_all 5 [2;1;5;4;1]) = 0.
+Proof. reflexivity. Qed.
+Example test_remove_all2: count 5 (remove_all 5 [2;1;4;1]) = 0.
+Proof. reflexivity. Qed.
+Example test_remove_all3: count 4 (remove_all 5 [2;1;4;5;1;4]) = 2.
+Proof. reflexivity. Qed.
+Example test_remove_all4: count 5 (remove_all 5 [2;1;5;4;5;1;4;5;1;4]) = 0.
+Proof. reflexivity. Qed.
+Fixpoint included (s1 : bag) (s2 : bag) : bool :=
+match s1 with
+  | nil => true
+  | x::s1' => if count x s2 =? 0 then false else included s1' (remove_one x s2)
+end.
+Example test_included1: included [1;2] [2;1;4;1] = true.
+Proof. reflexivity. Qed.
+Example test_included2: included [1;2;2] [2;1;4;1] = false.
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, standard, optional (bag_more_functions) *)
 
 
 
