@@ -477,6 +477,28 @@ Proof.
 Qed.
 (* End Exercise: 3 stars, advanced (remove_does_not_increase_count) *)
 
+(* Exercise: 3 stars, standard, optional (bag_count_sum) *)
+Print count.
+Theorem bag_count_sum: forall (s1 s2 : bag) (n : nat),
+  count n (s1 ++ s2) =? (count n s1) + (count n s2) = true.
+Proof.
+  intros. induction s1.
+  - simpl. rewrite (eqb_refl (count n s2)). reflexivity.
+  - simpl. destruct (n0 =? n).
+    + simpl. rewrite IHs1. reflexivity.
+    + rewrite IHs1. reflexivity.
+Qed.
+(* End Exercise: 3 stars, standard, optional (bag_count_sum) *)
+
+
+
+
+
+
+
+
+
+
 
 
 
