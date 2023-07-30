@@ -448,10 +448,22 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard (eqblist) *)
 
-
-
-
-
+(* Exercise: 1 star, standard (count_member_nonzero) *)
+Theorem count_member_nonzero : forall (s : bag),
+  1 <=? (count 1 (1 :: s)) = true.
+Proof.
+  intros. simpl. reflexivity.
+Qed.
+Print count. Print eqb.
+Theorem leb_n_Sn : forall n,
+  n <=? (S n) = true.
+Proof.
+  intros n. induction n as [| n' IHn'].
+  - (* 0 *)
+    simpl. reflexivity.
+  - (* S n' *)
+    simpl. rewrite IHn'. reflexivity. Qed.
+(* End Exercise: 1 star, standard (count_member_nonzero) *)
 
 
 
