@@ -422,10 +422,31 @@ Proof.
 Qed.
 (* End Exercise: 3 stars, standard (list_exercises) *)
 
-
-
-
-
+(* Exercise: 2 stars, standard (eqblist) *)
+Fixpoint eqblist (l1 l2 : natlist) : bool :=
+match l1, l2 with
+  | nil, nil => true
+  | _, nil => false
+  | nil, _ => false
+  | n::l1', m::l2' => if m =? n then eqblist l1' l2' else false
+end.
+Example test_eqblist1 :
+  (eqblist nil nil = true).
+Proof. reflexivity. Qed.
+Example test_eqblist2 :
+  eqblist [1;2;3] [1;2;3] = true.
+Proof. reflexivity. Qed.
+Example test_eqblist3 :
+  eqblist [1;2;3] [1;2;4] = false.
+Proof. reflexivity. Qed.
+Theorem eqblist_refl : forall l:natlist,
+  true = eqblist l l.
+Proof.
+  intros l. induction l.
+  - reflexivity.
+  - simpl. rewrite eqb_refl. rewrite IHl. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (eqblist) *)
 
 
 
