@@ -465,10 +465,17 @@ Proof.
     simpl. rewrite IHn'. reflexivity. Qed.
 (* End Exercise: 1 star, standard (count_member_nonzero) *)
 
-
-
-
-
+(* Exercise: 3 stars, advanced (remove_does_not_increase_count) *)
+Theorem remove_does_not_increase_count: forall (s : bag),
+  (count 0 (remove_one 0 s)) <=? (count 0 s) = true.
+Proof.
+  intros. induction s.
+  - reflexivity.
+  - induction n.
+    + simpl. rewrite leb_n_Sn. reflexivity.
+    + simpl. rewrite IHs. reflexivity.
+Qed.
+(* End Exercise: 3 stars, advanced (remove_does_not_increase_count) *)
 
 
 
