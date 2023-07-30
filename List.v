@@ -298,6 +298,151 @@ Qed.
 Definition manual_grade_for_add_inc_count : option (nat*string) := None.
 (* End Exercise: 2 stars, standard, especially useful (add_inc_count) *)
 
+Theorem nil_app : forall l : natlist,
+  [] ++ l = l.
+Proof. reflexivity. Qed.
+
+Theorem tl_length_pred : forall l:natlist,
+  pred (length l) = length (tl l).
+Proof.
+  intros l. destruct l as [| n l'].
+  - (* l = nil *)
+    reflexivity.
+  - (* l = cons n l' *)
+    reflexivity. Qed.
+
+Check tl.
+Compute pred 0.
+
+Theorem app_assoc : forall l1 l2 l3 : natlist,
+  (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3).
+Proof.
+  intros l1 l2 l3. induction l1 as [| n l1' IHl1'].
+  - (* l1 = nil *)
+    reflexivity.
+  - (* l1 = cons n l1' *)
+    simpl. rewrite -> IHl1'. reflexivity. Qed.
+
+Fixpoint rev (l:natlist) : natlist :=
+  match l with
+  | nil => nil
+  | h :: t => rev t ++ [h]
+  end.
+Example test_rev1: rev [1;2;3] = [3;2;1].
+Proof. reflexivity. Qed.
+Example test_rev2: rev nil = nil.
+Proof. reflexivity. Qed.
+
+Theorem rev_length_firsttry : forall l : natlist,
+  length (rev l) = length l.
+Proof.
+  intros l. induction l as [| n l' IHl'].
+  - (* l = nil *)
+    reflexivity.
+  - (* l = n :: l' *)
+    (* This is the tricky case.  Let's begin as usual
+       by simplifying. *)
+    simpl.
+    (* Now we seem to be stuck: the goal is an equality
+       involving ++, but we don't have any useful equations
+       in either the immediate context or in the global
+       environment!  We can make a little progress by using
+       the IH to rewrite the goal... *)
+    rewrite <- IHl'.
+    (* ... but now we can't go any further. *)
+Abort.
+
+Theorem app_length : forall l1 l2 : natlist,
+  length (l1 ++ l2) = (length l1) + (length l2).
+Proof.
+  (* WORKED IN CLASS *)
+  intros l1 l2. induction l1 as [| n l1' IHl1'].
+  - (* l1 = nil *)
+    reflexivity.
+  - (* l1 = cons *)
+    simpl. rewrite IHl1'. reflexivity. Qed.
+
+
+Theorem rev_length : forall l : natlist,
+  length (rev l) = length l.
+Proof.
+  intros l. induction l as [| n l' IHl'].
+  - (* l = nil *)
+    reflexivity.
+  - (* l = cons *)
+    simpl. rewrite app_length.
+    simpl. rewrite IHl'. rewrite add_comm.
+    reflexivity.
+Qed.
+
+Search rev.
+
+Search (_+_=_+_).
+
+Search (_ + _ = _ + _) inside Induction.
+
+Search (?x + ?y = ?y + ?x).
+
+(* Exercise: 3 stars, standard (list_exercises) *)
+Theorem app_nil_r : forall l : natlist,
+  l ++ [] = l.
+Proof.
+  intros l. induction l.
+  - reflexivity.
+  - simpl. rewrite IHl. reflexivity.
+Qed.
+Theorem rev_app_distr: forall l1 l2 : natlist,
+  rev (l1 ++ l2) = rev l2 ++ rev l1.
+Proof.
+  intros l1 l2. induction l1.
+  - simpl. rewrite app_nil_r. reflexivity.
+  - simpl. rewrite IHl1. Search app. rewrite app_assoc. reflexivity.
+Qed.
+Theorem rev_involutive : forall l : natlist,
+  rev (rev l) = l.
+Proof.
+  intros l. induction l.
+  - reflexivity.
+  - simpl. rewrite rev_app_distr. simpl. rewrite IHl. reflexivity.
+Qed.
+Theorem app_assoc4 : forall l1 l2 l3 l4 : natlist,
+  l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
+Proof.
+  intros. Check app_assoc. rewrite app_assoc. rewrite app_assoc. reflexivity.
+Qed.
+Check nonzeros.
+Lemma nonzeros_app : forall l1 l2 : natlist,
+  nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
+Proof.
+  intros. induction l1.
+  - reflexivity.
+  - destruct n.
+    + simpl. rewrite IHl1. reflexivity.
+    + simpl. rewrite IHl1. reflexivity.
+Qed.
+(* End Exercise: 3 stars, standard (list_exercises) *)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
