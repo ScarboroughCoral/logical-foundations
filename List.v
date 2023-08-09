@@ -490,9 +490,15 @@ Proof.
 Qed.
 (* End Exercise: 3 stars, standard, optional (bag_count_sum) *)
 
-
-
-
+(* Exercise: 3 stars, advanced (involution_injective) *)
+Theorem involution_injective : forall (f : nat -> nat),
+    (forall n : nat, n = f (f n)) -> (forall n1 n2 : nat, f n1 = f n2 -> n1 = n2).
+Proof.
+  intros f IVH n1 n2 H.
+  rewrite IVH. rewrite <- H. rewrite <-IVH.
+  reflexivity.
+  Qed.
+(* End Exercise: 3 stars, advanced (involution_injective) *)
 
 
 
