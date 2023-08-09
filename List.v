@@ -500,10 +500,18 @@ Proof.
   Qed.
 (* End Exercise: 3 stars, advanced (involution_injective) *)
 
-
-
-
-
+(* Exercise: 2 stars, advanced (rev_injective) *)
+Theorem rev_injective : forall (l1 l2 : natlist),
+  rev l1 = rev l2 -> l1 = l2.
+Proof.
+  intros l1 l2 RH.
+  Check rev_involutive.
+  rewrite <- rev_involutive.
+  rewrite <- RH.
+  rewrite rev_involutive.
+  reflexivity.
+Qed.
+(* End Exercise: 2 stars, advanced (rev_injective) *)
 
 
 
