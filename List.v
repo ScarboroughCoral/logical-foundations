@@ -513,13 +513,55 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, advanced (rev_injective) *)
 
+Fixpoint nth_bad (l:natlist) (n:nat) : nat :=
+  match l with
+  | nil => 42
+  | a :: l' => match n with
+               | 0 => a
+               | S n' => nth_bad l' n'
+               end
+  end.
 
+Inductive natoption : Type :=
+  | Some (n : nat)
+  | None.
 
+Fixpoint nth_error (l:natlist) (n:nat) : natoption :=
+  match l with
+  | nil => None
+  | a :: l' => match n with
+               | O => Some a
+               | S n' => nth_error l' n'
+               end
+  end.
 
+Example test_nth_error1 : nth_error [4;5;6;7] 0 = Some 4.
+Proof. reflexivity. Qed.
 
+Example test_nth_error2 : nth_error [4;5;6;7] 3 = Some 7.
+Proof. reflexivity. Qed.
 
+Example test_nth_error3 : nth_error [4;5;6;7] 9 = None.
+Proof. reflexivity. Qed.
 
+Definition option_elim (d : nat) (o : natoption) : nat :=
+  match o with
+  | Some n' => n'
+  | None => d
+  end.
 
+Definition hd_error (l : natlist) : natoption :=
+match l with
+| nil => None
+| a::l' => Some a
+end.
+
+Example test_hd_error1 : hd_error [] = None.
+Proof. reflexivity. Qed.
+Example test_hd_error2 : hd_error [1] = Some 1.
+Proof. reflexivity. Qed.
+Example test_hd_error3 : hd_error [5;6] = Some 5.
+Proof. reflexivity. Qed.
 
 
 
