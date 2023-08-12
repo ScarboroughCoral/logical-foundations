@@ -621,11 +621,16 @@ Proof.
 Qed.
 (* End Exercise: 1 star, standard (update_eq) *)
 
-
-
-
-
-
+(* Exercise: 1 star, standard (update_neq) *)
+Theorem update_neq :
+  forall (d : partial_map) (x y : id) (o: nat),
+    eqb_id x y = false -> find x (update d y o) = find x d.
+Proof.
+  intros d x y o. intros H.
+  simpl. rewrite H. reflexivity.
+Qed.
+(* End Exercise: 1 star, standard (update_neq) *)
+End PartialMap.
 
 
 
