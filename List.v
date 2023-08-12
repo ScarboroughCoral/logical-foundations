@@ -570,6 +570,7 @@ Proof.
   - reflexivity.
   - reflexivity.
 Qed.
+End NatList.
 
 Inductive id : Type :=
   | Id (n : nat).
@@ -590,12 +591,35 @@ Proof.
 Qed.
 (* End Exercise: 1 star, standard (eqb_id_refl) *)
 
+Module PartialMap.
+Export NatList.
 
+Inductive partial_map : Type :=
+  | empty
+  | record (i : id) (v : nat) (m : partial_map).
 
+Definition update (d : partial_map)
+                  (x : id) (value : nat)
+                  : partial_map :=
+  record x value d.
 
+Fixpoint find (x : id) (d : partial_map) : natoption :=
+match d with
+| empty => None
+| record y v d' => if eqb_id x y
+                    then Some v
+                    else find x d'
+end.
 
-
-
+(* Exercise: 1 star, standard (update_eq) *)
+Theorem update_eq :
+  forall (d : partial_map) (x : id) (v: nat),
+    find x (update d x v) = Some v.
+Proof.
+  intros d x v.
+  simpl. rewrite eqb_id_refl. reflexivity.
+Qed.
+(* End Exercise: 1 star, standard (update_eq) *)
 
 
 
