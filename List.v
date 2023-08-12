@@ -632,6 +632,13 @@ Qed.
 (* End Exercise: 1 star, standard (update_neq) *)
 End PartialMap.
 
-
-
-
+(* Exercise: 2 stars, standard, optional (baz_num_elts) *)
+Inductive baz : Type :=
+  | Baz1 (x : baz)
+  | Baz2 (y : baz) (b : bool).
+(* 
+n = elts(Baz1) + elts(Baz2)
+  = [elts(Baz1) + elt(Baz2)] + [elt(Baz1) + elt(Baz2)] * 2
+  = Infinity.
+ *)
+(* End Exercise: 2 stars, standard, optional (baz_num_elts) *)
