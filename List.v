@@ -571,6 +571,30 @@ Proof.
   - reflexivity.
 Qed.
 
+Inductive id : Type :=
+  | Id (n : nat).
+
+Definition eqb_id (x1 x2 : id) :=
+  match x1, x2 with
+  | Id n1, Id n2 => n1 =? n2
+  end.
+
+(* Exercise: 1 star, standard (eqb_id_refl) *)
+Theorem eqb_id_refl : forall x, eqb_id x x = true.
+Proof.
+  intros x. destruct x.
+  simpl.
+  rewrite
+  eqb_refl.
+  reflexivity.
+Qed.
+(* End Exercise: 1 star, standard (eqb_id_refl) *)
+
+
+
+
+
+
 
 
 
