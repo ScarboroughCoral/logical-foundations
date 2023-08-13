@@ -166,6 +166,25 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard (poly_exercises) *)
 
+(* Exercise: 2 stars, standard (more_poly_exercises) *)
+Theorem rev_app_distr: forall X (l1 l2 : list X),
+  rev (l1 ++ l2) = rev l2 ++ rev l1.
+Proof.
+  intros X l1 l2.
+  induction l1.
+  - simpl. rewrite app_nil_r. reflexivity.
+  - simpl. rewrite IHl1. rewrite app_assoc. reflexivity.
+Qed.
+Theorem rev_involutive : forall X : Type, forall l : list X,
+  rev (rev l) = l.
+Proof.
+  intros X l.
+  induction l.
+  - simpl. reflexivity.
+  - simpl. rewrite rev_app_distr. rewrite IHl. simpl. reflexivity.
+Qed.
+(* End Exercise: 2 stars, standard (more_poly_exercises) *)
+
 
 
 
