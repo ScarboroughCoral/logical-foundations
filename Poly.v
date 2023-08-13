@@ -224,8 +224,19 @@ Q: What does Compute (combine [1;2] [false;false;true;true]). print?
 A: [(1,false);(2;false)] : list (nat * bool)
 *)
 Compute (combine [1;2] [false;false;true;true]).
-
 (* End Exercise: 1 star, standard, optional (combine_checks) *)
+
+(* Exercise: 2 stars, standard, especially useful (split) *)
+Fixpoint split {X Y : Type} (l : list (X*Y)) : (list X) * (list Y) :=
+match l with
+| nil => (nil, nil)
+| (x,y)::l' => (x::(fst(split l')), y::(snd(split l')))
+end.
+Example test_split:
+  split [(1,false);(2,false)] = ([1;2],[false;false]).
+Proof. reflexivity. Qed.
+(* End Exercise: 2 stars, standard, especially useful (split) *)
+
 
 
 
