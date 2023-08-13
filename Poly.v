@@ -237,7 +237,44 @@ Example test_split:
 Proof. reflexivity. Qed.
 (* End Exercise: 2 stars, standard, especially useful (split) *)
 
+Module OptionPlayground.
+Inductive option (X:Type) : Type :=
+  | Some (x : X)
+  | None.
+Arguments Some {X}.
+Arguments None {X}.
+End OptionPlayground.
 
+Fixpoint nth_error {X : Type} (l : list X) (n : nat)
+                   : option X :=
+  match l with
+  | nil => None
+  | a :: l' => match n with
+               | O => Some a
+               | S n' => nth_error l' n'
+               end
+  end.
+Example test_nth_error1 : nth_error [4;5;6;7] 0 = Some 4.
+Proof. reflexivity. Qed.
+Example test_nth_error2 : nth_error [[1];[2]] 1 = Some [2].
+Proof. reflexivity. Qed.
+Example test_nth_error3 : nth_error [true] 2 = None.
+Proof. reflexivity. Qed.
+
+(* Exercise: 1 star, standard, optional (hd_error_poly) *)
+Definition hd_error {X : Type} (l : list X) : option X :=
+match l with
+| nil => None
+| a::l' => Some a
+end.
+
+Check @hd_error : forall X : Type, list X -> option X.
+
+Example test_hd_error1 : hd_error [1;2] = Some 1.
+Proof. reflexivity. Qed.
+Example test_hd_error2 : hd_error [[1];[2]] = Some [1].
+Proof. reflexivity. Qed.
+(* End Exercise: 1 star, standard, optional (hd_error_poly) *)
 
 
 
