@@ -185,15 +185,47 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard (more_poly_exercises) *)
 
+Inductive prod (X Y : Type) : Type :=
+| pair (x : X) (y : Y).
+Arguments pair {X} {Y}.
 
+Notation "( x , y )" := (pair x y).
 
+Notation "X * Y" := (prod X Y) : type_scope.
 
+Definition fst {X Y : Type} (p : X * Y) : X :=
+  match p with
+  | (x, y) => x
+  end.
+Definition snd {X Y : Type} (p : X * Y) : Y :=
+  match p with
+  | (x, y) => y
+  end.
 
+Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
+           : list (X*Y) :=
+  match lx, ly with
+  | [], _ => []
+  | _, [] => []
+  | x :: tx, y :: ty => (x, y) :: (combine tx ty)
+  end.
 
+(* Exercise: 1 star, standard, optional (combine_checks) *)
+(* 
+Try answering the following questions on paper and checking your answers in Coq:
+*)
+(* 
+Q: What is the type of combine (i.e., what does Check @combine print?)
+A: forall (X Y : Type), list X -> list Y -> list (X * Y)
+*)
+Check @combine : forall (X Y : Type), list X -> list Y -> list (X * Y).
+(* 
+Q: What does Compute (combine [1;2] [false;false;true;true]). print? 
+A: [(1,false);(2;false)] : list (nat * bool)
+*)
+Compute (combine [1;2] [false;false;true;true]).
 
-
-
-
+(* End Exercise: 1 star, standard, optional (combine_checks) *)
 
 
 
