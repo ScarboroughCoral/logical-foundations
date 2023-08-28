@@ -345,9 +345,16 @@ Example test_filter_even_gt7_2 :
 Proof. reflexivity. Qed.
 (* End Exercise: 2 stars, standard (filter_even_gt7) *)
 
-
-
-
+(* Exercise: 3 stars, standard (partition) *)
+Definition partition {X : Type}
+                     (test : X -> bool)
+                     (l : list X)
+                   : list X * list X := (filter test l, filter (fun x => negb (test x)) l).
+Example test_partition1: partition odd [1;2;3;4;5] = ([1;3;5], [2;4]).
+Proof. reflexivity. Qed.
+Example test_partition2: partition (fun x => false) [5;9;0] = ([], [5;9;0]).
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, standard (partition) *)
 
 
 
