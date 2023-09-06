@@ -381,6 +381,53 @@ Proof.
 Qed.
 (* End Exercise: 3 stars, standard (map_rev) *)
 
+(* Exercise: 2 stars, standard, especially useful (flat_map) *)
+Fixpoint flat_map {X Y: Type} (f: X -> list Y) (l: list X)
+                   : list Y :=
+match l with
+|nil => nil
+|x::l' => f x ++ (flat_map f l')
+end.
+Example test_flat_map1:
+  flat_map (fun n => [n;n;n]) [1;5;4]
+  = [1; 1; 1; 5; 5; 5; 4; 4; 4].
+Proof. reflexivity. Qed.
+(* End Exercise: 2 stars, standard, especially useful (flat_map) *)
+
+Definition option_map {X Y : Type} (f : X -> Y) (xo : option X)
+                      : option Y :=
+  match xo with
+  | None => None
+  | Some x => Some (f x)
+  end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
