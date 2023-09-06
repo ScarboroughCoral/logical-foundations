@@ -361,7 +361,15 @@ Fixpoint map {X Y : Type} (f : X->Y) (l : list X) : list Y :=
   | [] => []
   | h :: t => (f h) :: (map f t)
   end.
-
+Example test_map1: map (fun x => plus 3 x) [2;0;2] = [5;3;5].
+Proof. reflexivity. Qed.
+Example test_map2:
+  map odd [2;1;2;5] = [false;true;false;true].
+Proof. reflexivity. Qed.
+Example test_map3:
+    map (fun n => [even n;odd n]) [2;1;2;5]
+  = [[true;false];[false;true];[true;false];[false;true]].
+Proof. reflexivity. Qed.
 (* Exercise: 3 stars, standard (map_rev) *)
 Lemma map_distribute : forall (X Y : Type) (f : X -> Y) (l1 l2 : list X),
   map f (l1 ++ l2) = map f l1 ++ (map f l2).
@@ -401,10 +409,42 @@ Definition option_map {X Y : Type} (f : X -> Y) (xo : option X)
   | Some x => Some (f x)
   end.
 
+(* Exercise: 2 stars, standard, optional (implicit_args) *)
+
+Fixpoint filter_explicit_type (X:Type) (test: X->bool) (l:list X) : list X :=
+  match l with
+  | [] => []
+  | h :: t =>
+    if test h then h :: (filter_explicit_type X test t)
+    else filter_explicit_type X test t
+  end.
+Check filter_explicit_type: forall X: Type, (X -> bool) -> list X -> list X.
+Example test_filter_explicit_type1: filter_explicit_type nat even [1;2;3;4] = [2;4].
+Proof. reflexivity. Qed.
 
 
+Example test_filter_explicit_type2:
+    filter_explicit_type (list nat) length_is_1
+           [ [1; 2]; [3]; [4]; [5;6;7]; []; [8] ]
+  = [ [3]; [4]; [8] ].
+Proof. reflexivity. Qed.
 
-
+Fixpoint map_explicit_type (X Y : Type) (f : X->Y) (l : list X) : list Y :=
+  match l with
+  | [] => []
+  | h :: t => (f h) :: (map_explicit_type X Y f t)
+  end.
+Check map_explicit_type: forall X Y: Type, (X -> Y) -> list X -> list Y.
+Example test_map_explicit_type1: map_explicit_type nat nat (fun x => plus 3 x) [2;0;2] = [5;3;5].
+Proof. reflexivity. Qed.
+Example test_map_explicit_type2:
+  map_explicit_type nat bool odd [2;1;2;5] = [false;true;false;true].
+Proof. reflexivity. Qed.
+Example test_map_explicit_type3:
+    map_explicit_type nat (list bool) (fun n => [even n;odd n]) [2;1;2;5]
+  = [[true;false];[false;true];[true;false];[false;true]].
+Proof. reflexivity. Qed.
+(* End Exercise: 2 stars, standard, optional (implicit_args) *)
 
 
 
