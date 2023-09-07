@@ -446,14 +446,33 @@ Example test_map_explicit_type3:
 Proof. reflexivity. Qed.
 (* End Exercise: 2 stars, standard, optional (implicit_args) *)
 
+Fixpoint fold {X Y: Type} (f : X->Y->Y) (l : list X) (b : Y)
+                         : Y :=
+  match l with
+  | nil => b
+  | h :: t => f h (fold f t b)
+  end.
 
+Check (fold andb) : list bool -> bool -> bool.
+Example fold_example1 :
+  fold mult [1;2;3;4] 1 = 24.
+Proof. reflexivity. Qed.
 
+Example fold_example2 :
+  fold andb [true;true;false;true] true = false.
+Proof. reflexivity. Qed.
 
+Example fold_example3 :
+  fold app [[1];[];[2;3];[4]] [] = [1;2;3;4].
+Proof. reflexivity. Qed.
 
+(* Exercise: 1 star, standard, optional (fold_types_different) *)
+Definition app' {X : Type} (xs ys : list X) : list X := fold cons xs ys.
 
-
-
-
+Example app'_example :
+  app' [1;2;3] [4;5;6] = app [1;2;3] [4;5;6].
+Proof. reflexivity. Qed.
+(* End Exercise: 1 star, standard, optional (fold_types_different) *)
 
 
 
