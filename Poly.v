@@ -547,6 +547,27 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, advanced (currying) *)
 
+(* Exercise: 2 stars, advanced (nth_error_informal) *)
+Theorem nth_error_formal: forall X l n, length l = n -> @nth_error X l n = None.
+Proof. Admitted.
+(* 
+1. n = 0 = length l 时，nth_error l 0 = None显然成立
+2. 假设 n = k = length l 时，nth_error l k = None 成立
+需证明 n = k + 1 = length l 时，nth_error l (k + 1) = None 成立:
+只需证明 nth_error x::l' (k + 1) = nth_error l' k = None 成立，根据假设显然成立。
+ *)
+(* Do not modify the following line: *)
+Definition manual_grade_for_informal_proof : option (nat*string) := None.
+(* End Exercise: 2 stars, advanced (nth_error_informal) *)
+
+
+
+
+
+
+
+
+
 
 
 
