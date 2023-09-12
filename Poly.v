@@ -507,6 +507,26 @@ Proof.
 Qed.
 (* End Exercise: 2 stars, standard (fold_length) *)
 
+(* Exercise: 3 stars, standard (fold_map) *)
+Definition fold_map {X Y: Type} (f: X -> Y) (l: list X) : list Y :=
+ fold (fun x lr => cons (f x) lr) l [].
+Theorem fold_map_correct : forall X Y (l : list X) (f: X -> Y),
+  fold_map f l = map f l.
+Proof.
+  intros.
+  induction l.
+  - reflexivity.
+  - simpl. rewrite <- IHl. reflexivity.
+Qed.
+(* Do not modify the following line: *)
+Definition manual_grade_for_fold_map : option (nat*string) := None.
+(* End Exercise: 3 stars, standard (fold_map) *)
+
+
+
+
+
+
 
 
 
