@@ -505,6 +505,8 @@ Proof.
   - reflexivity.
   - simpl. rewrite <- IHl. reflexivity.
 Qed.
+
+Module Exercises.
 (* End Exercise: 2 stars, standard (fold_length) *)
 
 (* Exercise: 3 stars, standard (fold_map) *)
@@ -626,10 +628,18 @@ Example mult_3 : mult two three = plus three three.
 Proof. reflexivity. Qed.
 (* End Exercise: 3 stars, advanced (church_mult) *)
 
-
-
-
-
+(* Exercise: 3 stars, advanced (church_exp) *)
+Definition exp (n m : cnat) : cnat :=
+  fun (X : Type) => m (X -> X) (n X).
+Example exp_1 : exp two two = plus two two.
+Proof. reflexivity. Qed.
+Example exp_2 : exp three zero = one.
+Proof. reflexivity. Qed.
+Example exp_3 : exp three two = plus (mult two (mult two two)) one.
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, advanced (church_exp) *)
+End Church.
+End Exercises.
 
 
 
