@@ -615,5 +615,25 @@ Example plus_3 :
 Proof. reflexivity. Qed.
 (* End Exercise: 3 stars, advanced (church_plus) *)
 
+(* Exercise: 3 stars, advanced (church_mult) *)
+Definition mult (n m : cnat) : cnat :=
+  fun (X : Type) (succ : X -> X) (x : X) => n X (m X succ) x.
+Example mult_1 : mult one one = one.
+Proof. reflexivity. Qed.
+Example mult_2 : mult zero (plus three three) = zero.
+Proof. reflexivity. Qed.
+Example mult_3 : mult two three = plus three three.
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, advanced (church_mult) *)
+
+
+
+
+
+
+
+
+
+
 
 
