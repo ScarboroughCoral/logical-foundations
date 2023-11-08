@@ -603,10 +603,17 @@ Example scc_3 : scc two = three.
 Proof. reflexivity. Qed.
 (* End Exercise: 2 stars, advanced (church_scc) *)
 
-
-
-
-
+(* Exercise: 3 stars, advanced (church_plus) *)
+Definition plus (n m : cnat) : cnat :=
+  fun (X : Type) (succ : X -> X) (x : X) => n X succ (m X succ x).
+Example plus_1 : plus zero one = one.
+Proof. reflexivity. Qed.
+Example plus_2 : plus two three = plus three two.
+Proof. reflexivity. Qed.
+Example plus_3 :
+  plus (plus two two) three = plus one (plus three three).
+Proof. reflexivity. Qed.
+(* End Exercise: 3 stars, advanced (church_plus) *)
 
 
 
