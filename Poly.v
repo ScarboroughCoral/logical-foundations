@@ -560,14 +560,48 @@ Proof. Admitted.
 Definition manual_grade_for_informal_proof : option (nat*string) := None.
 (* End Exercise: 2 stars, advanced (nth_error_informal) *)
 
+Module Church.
+Definition cnat := forall X : Type, (X -> X) -> X -> X.
 
+Definition one : cnat :=
+  fun (X : Type) (f : X -> X) (x : X) => f x.
 
+Definition two : cnat :=
+  fun (X : Type) (f : X -> X) (x : X) => f (f x).
 
+Check cnat.
+Check one.
+Check option.
 
+Definition zero : cnat :=
+  fun (X : Type) (f : X -> X) (x : X) => x.
 
+Definition three : cnat := @doit3times.
 
+Definition zero' : cnat :=
+  fun (X : Type) (succ : X -> X) (zero : X) => zero.
+Definition one' : cnat :=
+  fun (X : Type) (succ : X -> X) (zero : X) => succ zero.
+Definition two' : cnat :=
+  fun (X : Type) (succ : X -> X) (zero : X) => succ (succ zero).
 
+Example zero_church_peano : zero nat S O = 0.
+Proof. reflexivity. Qed.
+Example one_church_peano : one nat S O = 1.
+Proof. reflexivity. Qed.
+Example two_church_peano : two nat S O = 2.
+Proof. reflexivity. Qed.
 
+(* Exercise: 2 stars, advanced (church_scc) *)
+Definition scc (n : cnat) : cnat :=
+  fun (X : Type) (succ : X -> X) (x : X) => n X succ (succ x).
+Example scc_1 : scc zero = one.
+Proof. reflexivity. Qed.
+Example scc_2 : scc one = two.
+Proof. reflexivity. Qed.
+Example scc_3 : scc two = three.
+Proof. reflexivity. Qed.
+(* End Exercise: 2 stars, advanced (church_scc) *)
 
 
 
