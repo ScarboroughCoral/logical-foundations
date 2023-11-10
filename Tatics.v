@@ -44,3 +44,19 @@ Proof.
   intros n m H.
   Fail apply H.
   symmetry. apply H. Qed.
+
+(* Exercise: 2 stars, standard (apply_exercise1) *)
+Theorem rev_exercise1 : forall (l l' : list nat),
+  l = rev l' ->
+  l' = rev l.
+Proof.
+  intros.
+  Search rev.
+  rewrite H. symmetry. apply rev_involutive.
+Qed.
+(* End Exercise: 2 stars, standard (apply_exercise1) *)
+
+(* Exercise: 1 star, standard, optional (apply_rewrite) *)
+
+(* End Exercise: 1 star, standard, optional (apply_rewrite) *)
+
