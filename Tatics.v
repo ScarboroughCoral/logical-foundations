@@ -110,15 +110,48 @@ Qed.
 
 
 
+Theorem S_injective : forall (n m : nat),
+  S n = S m ->
+  n = m.
+Proof.
+  intros n m H1.
+  assert (H2: n = pred (S n)). { reflexivity. }
+  rewrite H2. rewrite H1. simpl. reflexivity.
+Qed.
 
+Theorem S_injective' : forall (n m : nat),
+  S n = S m ->
+  n = m.
+Proof.
+  intros n m H.
+  injection H as Hnm. apply Hnm.
+Qed.
 
+Theorem injection_ex1 : forall (n m o : nat),
+  [n;m] = [o;o] ->
+  n = m.
+Proof.
+  intros n m o H.
+  (* WORKED IN CLASS *)
+  injection H as H1 H2.
+  rewrite H1. rewrite H2. reflexivity.
+Qed.
 
-
-
-
-
-
-
+(* Exercise: 3 stars, standard (injection_ex3) *)
+Example injection_ex3 : forall (X : Type) (x y z : X) (l j : list X),
+  x :: y :: l = z :: j ->
+  j = z :: l ->
+  x = y.
+Proof.
+  intros.
+  injection H. intros.
+  rewrite H0 in H1.
+  injection H1. intros.
+  transitivity z.
+  apply H2.
+  symmetry. apply H3.
+Qed.
+(* End Exercise: 3 stars, standard (injection_ex3) *)
 
 
 
