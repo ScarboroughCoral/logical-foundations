@@ -57,6 +57,8 @@ Qed.
 (* End Exercise: 2 stars, standard (apply_exercise1) *)
 
 (* Exercise: 1 star, standard, optional (apply_rewrite) *)
-
+(* 
+rewrite used in forewards, apply while in backwards.
+ *)
 (* End Exercise: 1 star, standard, optional (apply_rewrite) *)
 
