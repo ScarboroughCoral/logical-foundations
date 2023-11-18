@@ -173,13 +173,40 @@ Proof.
   intros. discriminate H. Qed.
 (* End Exercise: 1 star, standard (discriminate_ex3) *)
 
+Theorem eqb_0_l : forall n,
+   0 =? n = true -> n = 0.
+Proof.
+  intros n.
+  destruct n as [| n'] eqn:E.
+  - (* n = 0 *)
+    intros H. reflexivity.
+  - (* n = S n' *)
+    simpl.
+    intros H. discriminate H.
+Qed.
 
+Theorem f_equal : forall (A B : Type) (f: A -> B) (x y: A),
+  x = y -> f x = f y.
+Proof. intros A B f x y eq. rewrite eq. reflexivity. Qed.
+Theorem eq_implies_succ_equal : forall (n m : nat),
+  n = m -> S n = S m.
+Proof. intros n m H. apply f_equal. apply H. Qed.
 
+Theorem eq_implies_succ_equal' : forall (n m : nat),
+  n = m -> S n = S m.
+Proof. intros n m H. f_equal. apply H. Qed.
 
+Theorem S_inj : forall (n m : nat) (b : bool),
+  ((S n) =? (S m)) = b ->
+  (n =? m) = b.
+Proof.
+  intros n m b H. simpl in H. apply H. Qed.
 
-
-
-
-
-
-
+Theorem silly4 : forall (n m p q : nat),
+  (n = m -> p = q) ->
+  m = n ->
+  q = p.
+Proof.
+  intros n m p q EQ H.
+  symmetry in H. apply EQ in H. symmetry in H.
+  apply H. Qed.
