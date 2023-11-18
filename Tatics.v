@@ -153,12 +153,25 @@ Proof.
 Qed.
 (* End Exercise: 3 stars, standard (injection_ex3) *)
 
+Theorem discriminate_ex1 : forall (n m : nat),
+  false = true ->
+  n = m.
+Proof.
+  intros n m contra. discriminate contra. Qed.
+Theorem discriminate_ex2 : forall (n : nat),
+  S n = O ->
+  2 + 2 = 5.
+Proof.
+  intros n contra. discriminate contra. Qed.
 
-
-
-
-
-
+(* Exercise: 1 star, standard (discriminate_ex3) *)
+Example discriminate_ex3 :
+  forall (X : Type) (x y z : X) (l j : list X),
+    x :: y :: l = [] ->
+    x = z.
+Proof.
+  intros. discriminate H. Qed.
+(* End Exercise: 1 star, standard (discriminate_ex3) *)
 
 
 
